@@ -28,13 +28,13 @@ public class JFPrincipal extends javax.swing.JFrame {
         String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
         cargarDatosPlaneta(nombreSateliteSeleccionado);
         // Inicializar la tabla con un modelo de tabla
-        String[] columnNames = {"Nombre", "Radio(km)", "Distancia de planeta", "Periodo Orbital", "Temperatura Media", "Tipo"};
+        String[] columnNames = {"Nombre", "Radio(km)", "Distancia al planeta", "Periodo Orbital", "Temperatura Media", "Tipo"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         jTable1 = new JTable(new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "Nombre", "Radio(km)", "Distancia de planeta", "Periodo orbital", "Temperatura media", "Tipo"
+                    "Nombre", "Radio(km)", "Distancia al planeta", "Periodo orbital", "Temperatura media", "Tipo"
                 }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -224,7 +224,7 @@ public class JFPrincipal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Radio(km)", "Distancia de planeta", "Periodo orbital", "Temperatura media", "Tipo"
+                "Nombre", "Radio(km)", "Distancia al planeta", "Periodo orbital", "Temperatura media", "Tipo"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
