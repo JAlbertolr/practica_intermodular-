@@ -4,6 +4,14 @@
  */
 package com.mycompany.practica_intermodular;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Informatico
@@ -18,6 +26,21 @@ public class JFPrincipal extends javax.swing.JFrame {
          cargarDatosEstrella();
          String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
          cargarDatosPlaneta(nombreSateliteSeleccionado);
+         // Inicializar la tabla con un modelo de tabla
+        String[] columnNames = {"Nombre", "Radio(km)", "Distancia de planeta", "Periodo Orbital", "Temperatura Media","Tipo"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        table = new JTable(tableModel);
+        jTable1 = new JTable(new DefaultTableModel(
+        new Object[][] {},
+        new String[] {
+            "Nombre", "Radio(km)", "Distancia de planeta", "Periodo orbital", "Temperatura media", "Tipo"
+        }
+    ));
+    jScrollPane1.setViewportView(jTable1);
+
+       
+        
+         
     }
     private void cargarDatosEstrella() {
         EstrellaConsultas estrellaConsulta = new EstrellaConsultas();
@@ -344,8 +367,8 @@ public class JFPrincipal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel18)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -353,12 +376,35 @@ public class JFPrincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
-        
-      
-        
+        actualizarTabla(nombreSateliteSeleccionado);     
         cargarDatosPlaneta(nombreSateliteSeleccionado);
     }//GEN-LAST:event_jButton1ActionPerformed
+   private void actualizarTabla(String nombrePlaneta) {
+    SateliteConsultas sateliteConsultas = new SateliteConsultas();
 
+    // Obtener datos de los satélites
+    ArrayList<Satelite> satelites = sateliteConsultas.obtenerSatelitesPorPlaneta(nombrePlaneta);
+
+    // Limpiar la tabla
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    modelo.setRowCount(0); 
+
+    // Agregar cada satélite a la tabla
+    for (Satelite satelite : satelites) {
+        Object[] fila = {
+            satelite.getNombre(),
+            satelite.getRadio(),
+            satelite.getDistancia(),
+            satelite.getPeriodoOrbital(),
+            satelite.getTemperaturaMedia(),
+            satelite.getTipo()
+        };
+        modelo.addRow(fila);
+    }
+}
+
+
+    
     /**
      * @param args the command line arguments
      */
@@ -393,7 +439,7 @@ public class JFPrincipal extends javax.swing.JFrame {
             }
         });
     }
-
+    private JTable table;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
