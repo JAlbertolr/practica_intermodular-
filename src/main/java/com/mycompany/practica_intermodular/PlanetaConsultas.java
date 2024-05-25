@@ -14,18 +14,18 @@ import java.util.List;
  * @author Informatico
  */
 public class PlanetaConsultas {
-    public String obtenerNombrePlaneta(String nombrePlaneta) {
+    public String obtenerNombrePlanetaPorSatelite(String nombreSatelite) {
+        String nombrePlaneta = "";
         String query = "SELECT nombre FROM Planeta WHERE nombre = ?";
-        String nombre = "";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    nombre = rs.getString("nombre");
+                    nombrePlaneta = rs.getString("nombre");
                 }
             }
 
@@ -33,21 +33,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return nombre;
+        return nombrePlaneta;
     }
 
-    public double obtenerRadioPlaneta(String nombrePlaneta) {
-        String query = "SELECT radio FROM Planeta WHERE nombre = ?";
-        double radio = 0;
+    public double obtenerRadioPlanetaPorSatelite(String nombreSatelite) {
+        double radioPlaneta = 0.0;
+        String query = "SELECT radio_km FROM Planeta WHERE nombre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    radio = rs.getDouble("radio");
+                    radioPlaneta = rs.getDouble("radio_km");
                 }
             }
 
@@ -55,21 +55,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return radio;
+        return radioPlaneta;
     }
 
-    public double obtenerDistanciaPlaneta(String nombrePlaneta) {
-        String query = "SELECT distancia FROM Planeta WHERE nombre = ?";
-        double distancia = 0;
+    public double obtenerDistanciaPlanetaPorSatelite(String nombreSatelite) {
+        double distanciaPlaneta = 0.0;
+        String query = "SELECT distancia_sol FROM Planeta WHERE nombre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    distancia = rs.getDouble("distancia");
+                    distanciaPlaneta = rs.getDouble("distancia_sol");
                 }
             }
 
@@ -77,21 +77,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return distancia;
+        return distanciaPlaneta;
     }
 
-    public double obtenerPeriodoOrbitalPlaneta(String nombrePlaneta) {
+    public double obtenerPeriodoOrbitalPlanetaPorSatelite(String nombreSatelite) {
+        double periodoOrbitalPlaneta = 0.0;
         String query = "SELECT periodo_orbital FROM Planeta WHERE nombre = ?";
-        double periodo = 0;
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    periodo = rs.getDouble("periodo_orbital");
+                    periodoOrbitalPlaneta = rs.getDouble("periodo_orbital");
                 }
             }
 
@@ -99,21 +99,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return periodo;
+        return periodoOrbitalPlaneta;
     }
 
-    public double obtenerTemperaturaPlaneta(String nombrePlaneta) {
-        String query = "SELECT temperatura FROM Planeta WHERE nombre = ?";
-        double temperatura = 0;
+    public double obtenerTemperaturaPlanetaPorSatelite(String nombreSatelite) {
+        double temperaturaPlaneta = 0.0;
+        String query = "SELECT temperatura_media FROM Planeta WHERE nombre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    temperatura = rs.getDouble("temperatura");
+                    temperaturaPlaneta = rs.getDouble("temperatura_media");
                 }
             }
 
@@ -121,21 +121,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return temperatura;
+        return temperaturaPlaneta;
     }
 
-    public int obtenerNumeroSatelitesPlaneta(String nombrePlaneta) {
-        String query = "SELECT COUNT(*) AS num_satelites FROM Satelite WHERE planeta_id = (SELECT id FROM Planeta WHERE nombre = ?)";
-        int numSatelites = 0;
+    public int obtenerNumeroSatelitesPlanetaPorSatelite(String nombreSatelite) {
+        int numeroSatelitesPlaneta = 0;
+        String query = "SELECT numero_satelites FROM Planeta WHERE nombre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    numSatelites = rs.getInt("num_satelites");
+                    numeroSatelitesPlaneta = rs.getInt("numero_satelites");
                 }
             }
 
@@ -143,21 +143,21 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return numSatelites;
+        return numeroSatelitesPlaneta;
     }
-
-    public List<String> obtenerNombresSatelitesPorPlaneta(String nombrePlaneta) {
-        List<String> nombresSatelites = new ArrayList<>();
-        String query = "SELECT nombre FROM Satelite WHERE planeta_id = (SELECT id FROM Planeta WHERE nombre = ?)";
+   
+   public String obtenerTipoSatelitesPlanetaPorSatelite(String nombreSatelite) {
+        String nombrePlaneta = "";
+        String query = "SELECT tipo FROM Planeta WHERE nombre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, nombrePlaneta);
+            stmt.setString(1, nombreSatelite);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    nombresSatelites.add(rs.getString("nombre"));
+                if (rs.next()) {
+                    nombrePlaneta = rs.getString("tipo");
                 }
             }
 
@@ -165,6 +165,6 @@ public class PlanetaConsultas {
             e.printStackTrace();
         }
 
-        return nombresSatelites;
+        return nombrePlaneta;
     }
 }
