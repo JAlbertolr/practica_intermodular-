@@ -19,29 +19,31 @@ import java.util.List;
 public class JFPrincipal extends javax.swing.JFrame {
 
     /**
-     * Creates new form JFPrincipal
+     * Constructor de la clase JFPrincipal. Inicializa los componentes de la
+     * ventana y carga los datos de la estrella.
      */
     public JFPrincipal() {
         initComponents();
-         cargarDatosEstrella();
-         String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
-         cargarDatosPlaneta(nombreSateliteSeleccionado);
-         // Inicializar la tabla con un modelo de tabla
-        String[] columnNames = {"Nombre", "Radio(km)", "Distancia de planeta", "Periodo Orbital", "Temperatura Media","Tipo"};
+        cargarDatosEstrella();
+        String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
+        cargarDatosPlaneta(nombreSateliteSeleccionado);
+        // Inicializar la tabla con un modelo de tabla
+        String[] columnNames = {"Nombre", "Radio(km)", "Distancia de planeta", "Periodo Orbital", "Temperatura Media", "Tipo"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         jTable1 = new JTable(new DefaultTableModel(
-        new Object[][] {},
-        new String[] {
-            "Nombre", "Radio(km)", "Distancia de planeta", "Periodo orbital", "Temperatura media", "Tipo"
-        }
-    ));
-    jScrollPane1.setViewportView(jTable1);
+                new Object[][]{},
+                new String[]{
+                    "Nombre", "Radio(km)", "Distancia de planeta", "Periodo orbital", "Temperatura media", "Tipo"
+                }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
-       
-        
-         
     }
+
+    /**
+     * Método para cargar los datos de la estrella en la interfaz gráfica.
+     */
     private void cargarDatosEstrella() {
         EstrellaConsultas estrellaConsulta = new EstrellaConsultas();
         jlEstrellaNombre.setText(estrellaConsulta.obtenerNombreEstrella());
@@ -51,17 +53,24 @@ public class JFPrincipal extends javax.swing.JFrame {
         jlEstrellaDistancia.setText(String.valueOf(estrellaConsulta.obtenerDistanciaEstrella()));
         jlEstrellaComposicion.setText(estrellaConsulta.obtenerComposicionEstrella());
     }
+
+    /**
+     * Método para cargar los datos del planeta seleccionado en la interfaz
+     * gráfica.
+     *
+     * @param nombreSateliteSeleccionado El nombre del satélite seleccionado.
+     */
     private void cargarDatosPlaneta(String nombreSateliteSeleccionado) {
-    PlanetaConsultas planetaConsulta = new PlanetaConsultas();
-    
-    jlPlanetaTipo.setText(String.valueOf(planetaConsulta.obtenerTipoSatelitesPlanetaPorSatelite(nombreSateliteSeleccionado)));  
-    jlPlanetaNombre.setText(planetaConsulta.obtenerNombrePlanetaPorSatelite(nombreSateliteSeleccionado));
-    jlPlanetaRadio.setText(String.valueOf(planetaConsulta.obtenerRadioPlanetaPorSatelite(nombreSateliteSeleccionado)));
-    jlPlanetaDistancia.setText(String.valueOf(planetaConsulta.obtenerDistanciaPlanetaPorSatelite(nombreSateliteSeleccionado)));
-    jlPlanetaPeriodo.setText(String.valueOf(planetaConsulta.obtenerPeriodoOrbitalPlanetaPorSatelite(nombreSateliteSeleccionado)));
-    jlPlanetaTemperatura.setText(String.valueOf(planetaConsulta.obtenerTemperaturaPlanetaPorSatelite(nombreSateliteSeleccionado)));
-    jlPlanetaNumero.setText(String.valueOf(planetaConsulta.obtenerNumeroSatelitesPlanetaPorSatelite(nombreSateliteSeleccionado)));
-}
+        PlanetaConsultas planetaConsulta = new PlanetaConsultas();
+
+        jlPlanetaTipo.setText(String.valueOf(planetaConsulta.obtenerTipoSatelitesPlanetaPorSatelite(nombreSateliteSeleccionado)));
+        jlPlanetaNombre.setText(planetaConsulta.obtenerNombrePlanetaPorSatelite(nombreSateliteSeleccionado));
+        jlPlanetaRadio.setText(String.valueOf(planetaConsulta.obtenerRadioPlanetaPorSatelite(nombreSateliteSeleccionado)));
+        jlPlanetaDistancia.setText(String.valueOf(planetaConsulta.obtenerDistanciaPlanetaPorSatelite(nombreSateliteSeleccionado)));
+        jlPlanetaPeriodo.setText(String.valueOf(planetaConsulta.obtenerPeriodoOrbitalPlanetaPorSatelite(nombreSateliteSeleccionado)));
+        jlPlanetaTemperatura.setText(String.valueOf(planetaConsulta.obtenerTemperaturaPlanetaPorSatelite(nombreSateliteSeleccionado)));
+        jlPlanetaNumero.setText(String.valueOf(planetaConsulta.obtenerNumeroSatelitesPlanetaPorSatelite(nombreSateliteSeleccionado)));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -375,36 +384,41 @@ public class JFPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
-        actualizarTabla(nombreSateliteSeleccionado);     
+        String nombreSateliteSeleccionado = (String) jComboBox1.getSelectedItem();
+        actualizarTabla(nombreSateliteSeleccionado);
         cargarDatosPlaneta(nombreSateliteSeleccionado);
     }//GEN-LAST:event_jButton1ActionPerformed
-   private void actualizarTabla(String nombrePlaneta) {
-    SateliteConsultas sateliteConsultas = new SateliteConsultas();
+    /**
+     * Método para actualizar la tabla con los datos de los satélites del
+     * planeta seleccionado.
+     *
+     * @param nombrePlaneta El nombre del planeta del cual se cargarán los
+     * satélites.
+     */
+    private void actualizarTabla(String nombrePlaneta) {
+        SateliteConsultas sateliteConsultas = new SateliteConsultas();
 
-    // Obtener datos de los satélites
-    ArrayList<Satelite> satelites = sateliteConsultas.obtenerSatelitesPorPlaneta(nombrePlaneta);
+        // Obtener datos de los satélites
+        ArrayList<Satelite> satelites = sateliteConsultas.obtenerSatelitesPorPlaneta(nombrePlaneta);
 
-    // Limpiar la tabla
-    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-    modelo.setRowCount(0); 
+        // Limpiar la tabla
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0);
 
-    // Agregar cada satélite a la tabla
-    for (Satelite satelite : satelites) {
-        Object[] fila = {
-            satelite.getNombre(),
-            satelite.getRadio(),
-            satelite.getDistancia(),
-            satelite.getPeriodoOrbital(),
-            satelite.getTemperaturaMedia(),
-            satelite.getTipo()
-        };
-        modelo.addRow(fila);
+        // Agregar cada satélite a la tabla
+        for (Satelite satelite : satelites) {
+            Object[] fila = {
+                satelite.getNombre(),
+                satelite.getRadio(),
+                satelite.getDistancia(),
+                satelite.getPeriodoOrbital(),
+                satelite.getTemperaturaMedia(),
+                satelite.getTipo()
+            };
+            modelo.addRow(fila);
+        }
     }
-}
 
-
-    
     /**
      * @param args the command line arguments
      */
